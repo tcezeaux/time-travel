@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="./libgif.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<title>
+			Example gif
+		</title>
+		<style>
+		.button {
+			width: 50px;
+			height: 30px;
+			border: 1px solid black;
+			border-radius: 5px;
+			display:inlne;
+		}
+		.bar {
+			display:inline-flex;
+		}
+		</style>
+	</head>
+
+	<body onmouseup="releaseButton()">
+		<center>
+			<img id="example1" src="./example_gifs/test.gif" rel:animated_src="./example_gifs/test.gif" rel:auto_play="0" width="467" height="375" />
+			<br>
+			<script type="text/javascript">
+				var sup1 = new SuperGif({ gif: document.getElementById('example1') } );
+				sup1.load();
+				var timer = null;
+				function stepFrame(step) {
+					if (sup1.get_current_frame() == 0 && step < 0) {
+						sup1.move_to(sup1.get_length()-1);
+					} else {
+						sup1.move_relative(step); 
+					}
+					console.log(sup1.get_current_frame())
+				}
+				function pressButton(step,time) {
+					releaseButton();
+					stepFrame(step);
+					timer = setInterval(function() {
+						stepFrame(step);
+					},time)
+				}
+				function releaseButton() {
+					if (timer) {
+						clearInterval(timer);
+						timer = null;
+					}
+				}
+			</script>
+			<div class="bar">
+				<div class="button" onmousedown="pressButton(-1,100); return false;">&lt;&lt;</div>
+				<div class="button" onmousedown="pressButton(-1,300); return false;">&lt;</div>
+				<div class="button" onmousedown="pressButton(1,300); return false;">&gt;</div>
+				<div class="button" onmousedown="pressButton(1,100); return false;">&gt;&gt;</div>
+			</div>
+		</center>
+
+	</body>
+
+</html>
